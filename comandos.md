@@ -18,6 +18,9 @@
 * `chmod 700 [carpeta]`: Cierra los permisos. 700 significa "Solo el propietario puede leer, escribir y entrar".
 * `/etc/passwd`: Archivo donde viven las configuraciones de todos los usuarios.
 * `/etc/group`: Archivo donde viven las configuraciones de todos los grupos.
+* `chmod [números] [archivo]`: Cambia permisos sumando valores (Lectura=4, Escritura=2, Ejecución=1). Ej: 644 (archivos) o 755 (carpetas).
+* `chown [usuario] [archivo]`: Cambia el dueño absoluto de un archivo.
+* `chown [usuario]:[grupo] [archivo]`: Cambia el dueño y el grupo a la vez (Ej: chown tecnico1:it_staff secreto.txt).
 
 ## 🔍 3. Trucos de Administrador
 * `grep [palabra] [archivo]`: El buscador láser. Busca una palabra exacta dentro de un archivo gigante (Ej: `grep it_staff /etc/group`).
