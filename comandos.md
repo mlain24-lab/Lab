@@ -32,3 +32,11 @@
 * `git commit -m "Mensaje"`: Cierra la caja y le pone una etiqueta que explica qué he hecho.
 * `git push`: Envía la caja a mi repositorio en la nube de GitHub.
 * `gh auth setup-git`: Comando mágico de Codespaces para arreglar el Error 403 (Permiso denegado).
+## 📦 5. Gestión de Servicios (Pilar 2)
+* `sudo apt update`: Actualiza el catálogo de programas.
+* `sudo apt install [programa] -y`: Instala un programa sin preguntar.
+* `sudo service [nombre] status`: Mira si el servicio está vivo (Usar en contenedores/Codespaces).
+* `systemctl status [nombre]`: Mira si el servicio está vivo (Usar en servidores reales/VMs).
+* `sudo service [nombre] start`: Enciende el servicio.
+* `sudo service [nombre] stop`: Apaga el servicio.
+* `sudo service [nombre] restart`: Apaga y enciende (Útil tras cambiar configuraciones).
