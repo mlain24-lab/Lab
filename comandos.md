@@ -48,3 +48,8 @@
 * `/var/log/`: La carpeta sagrada donde todos los programas guardan su historial de errores y accesos.
 * `/var/www/html/`: La carpeta pública. El escaparate de tu servidor. Todo lo que pongas aquí dentro será visible en internet.
 * `Puerto 80 (HTTP)`: La puerta estándar por donde entra y sale el tráfico web normal. Si un firewall cierra este puerto, tu web desaparece.
+## 🧱 7. Tuberías (Pipes) y Filtros (Pilar 3)
+* `|` (Pipe): Conecta comandos. La salida (texto) del comando de la izquierda se inyecta directamente como entrada al comando de la derecha.
+* `wc -l`: (Word Count) Cuenta el número de líneas que recibe. Ideal para ponerlo al final de una tubería para obtener totales.
+* `comando1 | comando2 | comando3`: Puedes encadenar todos los comandos que necesites para procesar datos paso a paso (Ej: cat archivo | grep palabra | wc -l).
+* `&&`: Operador lógico AND. Ejecuta el segundo comando SOLO si el primero ha terminado con éxito (Ej: apt update && apt install).
