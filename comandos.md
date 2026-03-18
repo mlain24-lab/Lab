@@ -40,3 +40,11 @@
 * `sudo service [nombre] start`: Enciende el servicio.
 * `sudo service [nombre] stop`: Apaga el servicio.
 * `sudo service [nombre] restart`: Apaga y enciende (Útil tras cambiar configuraciones).
+## 🕵️ 6. Logs y Redirecciones (Nivel Pro)
+* `tail -n 10 [archivo]`: Muestra solo las últimas 10 líneas de un archivo. Herramienta obligatoria para leer logs sin que la pantalla se vuelva loca.
+* `> [archivo]`: El embudo. Redirige el texto de un comando hacia un archivo y **machaca** (sobrescribe) todo lo que hubiera antes.
+* `>> [archivo]`: El embudo seguro. Añade el texto **al final** del archivo sin borrar lo que ya existía.
+* `sudo bash -c 'comando > archivo'`: Truco maestro. Abre una terminal temporal con poderes absolutos para poder inyectar texto en archivos protegidos.
+* `/var/log/`: La carpeta sagrada donde todos los programas guardan su historial de errores y accesos.
+* `/var/www/html/`: La carpeta pública. El escaparate de tu servidor. Todo lo que pongas aquí dentro será visible en internet.
+* `Puerto 80 (HTTP)`: La puerta estándar por donde entra y sale el tráfico web normal. Si un firewall cierra este puerto, tu web desaparece.
