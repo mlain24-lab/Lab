@@ -53,3 +53,11 @@
 * `wc -l`: (Word Count) Cuenta el número de líneas que recibe. Ideal para ponerlo al final de una tubería para obtener totales.
 * `comando1 | comando2 | comando3`: Puedes encadenar todos los comandos que necesites para procesar datos paso a paso (Ej: cat archivo | grep palabra | wc -l).
 * `&&`: Operador lógico AND. Ejecuta el segundo comando SOLO si el primero ha terminado con éxito (Ej: apt update && apt install).
+## 🤖 8. Bash Scripting y Automatización (Pilar 4)
+* `#!/bin/bash`: (Shebang) La primera línea obligatoria de cualquier script. Le dice al sistema qué intérprete usar.
+* `chmod +x archivo.sh`: Da permisos de eXecución a un script para que pueda cobrar vida.
+* `./script.sh`: Ejecuta un script que está en la carpeta actual.
+* `crontab -e`: Abre la agenda de tareas programadas (Cron).
+* `crontab -l`: Lee y muestra las tareas programadas actualmente.
+* `crontab -r`: Borra TODA la agenda de tareas programadas (Botón del pánico).
+* Sintaxis de Cron: `* * * * * comando` (Minuto, Hora, Día del mes, Mes, Día de la semana).
