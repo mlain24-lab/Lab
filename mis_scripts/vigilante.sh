@@ -1,0 +1,1 @@
+grep "bash" /etc/passwd | wc -l >> /workspaces/Lab/mis_scripts/cuentas.txt
