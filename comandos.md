@@ -61,3 +61,9 @@
 * `crontab -l`: Lee y muestra las tareas programadas actualmente.
 * `crontab -r`: Borra TODA la agenda de tareas programadas (Botón del pánico).
 * Sintaxis de Cron: `* * * * * comando` (Minuto, Hora, Día del mes, Mes, Día de la semana).
+## 🔀 9. Redirecciones y Trucos Pro (El nivel Ninja)
+* `>>` (Redirección segura): Envía el resultado de un comando a un archivo de texto, añadiéndolo al final **SIN borrar** lo que ya había (Ej: `comando >> archivo.log`).
+* `>` (Redirección destructiva): Envía el resultado a un archivo, pero **BORRANDO** todo el contenido anterior. Lo machaca por completo. ¡Cuidado!
+* `echo "texto"`: El megáfono. Imprime un texto. Se usa muchísimo combinado con redirecciones para escribir en archivos sin tener que abrir editores (Ej: `echo "hola" >> saludo.txt`).
+* `$(comando)`: Comandos anidados. Ejecuta un comando dentro de otro y pone el resultado ahí mismo (Ej: `echo "Mi ruta es $(pwd)"` inyecta la ruta automáticamente).
+* **Truco Pro de Grep:** No hace falta usar `cat` para leer un archivo antes de filtrarlo. Puedes hacerlo directo: `grep "palabra" /ruta/al/archivo`.
