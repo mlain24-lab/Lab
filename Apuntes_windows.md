@@ -51,3 +51,15 @@ Cuando creas o modificas una GPO en el servidor, los ordenadores de los usuarios
 * Si necesitas que la nueva norma (GPO) se aplique DE INMEDIATO en el ordenador de un usuario, abres su consola (CMD) y ejecutas el comando: `gpupdate /force`
 
 * *Aviso de oro:* Este comando fuerza la actualización de POLÍTICAS (GPOs), pero **NO** actualiza los permisos de Grupos de Seguridad (para eso, como vimos antes, el usuario tiene que cerrar sesión).
+## 🌐 5. Redes Core: DNS y DHCP
+
+En un entorno Windows Server, estos dos servicios son el "sistema nervioso" de la red.
+
+### 🔍 DNS (Domain Name System) - El Traductor
+* **Sin DNS no hay Active Directory:** Los equipos usan el DNS para encontrar al Controlador de Dominio (DC). Si el DNS falla, los usuarios no pueden iniciar sesión porque el PC "no encuentra" al jefe.
+* **Troubleshooting:** Si un PC tiene red pero no navega o no entra en dominio, lo primero es probar `nslookup [nombre-del-servidor]` para ver si el DNS responde.
+
+### 🔌 DHCP (Dynamic Host Configuration Protocol) - El Repartidor
+* **Función:** Asigna automáticamente direcciones IP, máscara de subred y puerta de enlace a los dispositivos.
+* **El síntoma APIPA (169.254.x.x):** Si un ordenador tiene esta IP, significa que NO ha podido contactar con el servidor DHCP. 
+* **Reserva de IP:** Es una técnica para que el DHCP siempre le dé la misma IP a un dispositivo específico (ej. una impresora o un servidor) basándose en su dirección MAC.
