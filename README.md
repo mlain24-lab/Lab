@@ -1,2 +1,2 @@
 # Lab
-Repositorio para todos mis códigos de Linux 
+Navaja suiza de Linux,Windows,etc.
