@@ -63,3 +63,20 @@ En un entorno Windows Server, estos dos servicios son el "sistema nervioso" de l
 * **Función:** Asigna automáticamente direcciones IP, máscara de subred y puerta de enlace a los dispositivos.
 * **El síntoma APIPA (169.254.x.x):** Si un ordenador tiene esta IP, significa que NO ha podido contactar con el servidor DHCP. 
 * **Reserva de IP:** Es una técnica para que el DHCP siempre le dé la misma IP a un dispositivo específico (ej. una impresora o un servidor) basándose en su dirección MAC.
+## ☁️ 6. Gestión de Dispositivos (Intune vs SCCM)
+
+En entornos modernos, la administración no se limita solo a lo que hay dentro de la oficina.
+
+### 📱 Microsoft Intune (El presente y futuro)
+* **¿Qué es?** Una herramienta de gestión en la nube (MDM/MAM) integrada en Microsoft 365.
+* **Uso principal:** Gestionar portátiles de teletrabajadores, móviles y tablets sin necesidad de que estén en la red local (LAN) o conectados por VPN.
+* **Diferencia con GPO:** Mientras las GPO necesitan ver al Controlador de Dominio, Intune aplica políticas a través de internet.
+
+### 🏗️ SCCM / MECM (La infraestructura pesada)
+* **¿Qué es?** System Center Configuration Manager. Una herramienta local (on-premise) para gestionar miles de equipos.
+* **Uso principal:** Despliegue masivo de sistemas operativos (instalar Windows en 200 PCs a la vez por red PXE), inventarios gigantescos y distribución de parches críticos.
+
+### ⚖️ Resumen para soporte:
+* **Entorno local:** Active Directory + GPOs.
+* **Entorno híbrido/remoto:** Azure AD + Intune.
+* **Entorno masivo local:** SCCM.
