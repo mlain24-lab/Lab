@@ -80,3 +80,19 @@ En entornos modernos, la administración no se limita solo a lo que hay dentro d
 * **Entorno local:** Active Directory + GPOs.
 * **Entorno híbrido/remoto:** Azure AD + Intune.
 * **Entorno masivo local:** SCCM.
+## 🛜 7. Troubleshooting de Redes (Kit de Supervivencia Helpdesk)
+
+Además de DNS y DHCP, un técnico de soporte debe dominar estas herramientas y conceptos para aislar problemas de conectividad:
+
+### 🛠️ Comandos de Diagnóstico Básico
+* **`ping [IP o Dominio]`**: Manda 4 paquetes de prueba para ver si un equipo responde. Si da "Tiempo de espera agotado", el equipo está apagado, desconectado, o su Firewall bloquea el ping (muy común en Windows 10/11).
+* **`tracert [IP o Dominio]`**: Muestra todos los "saltos" (routers) que da la conexión hasta llegar al destino. Sirve para saber exactamente en qué punto físico de la red se corta el internet.
+* **`ipconfig /flushdns`**: Borra la caché DNS del ordenador. Mano de santo cuando una web ha cambiado de IP y el PC sigue intentando entrar a la antigua.
+
+### 🛡️ Conceptos de Red Corporativa
+* **VPN (Virtual Private Network):** Crea un "túnel" seguro a través de internet. Permite a un teletrabajador estar virtualmente dentro de la red de la oficina para poder ver el Active Directory o las carpetas compartidas desde su casa.
+* **VLAN (Virtual LAN):** Permite dividir un switch físico en varias redes lógicas independientes. (Ejemplo: La VLAN 10 para Contabilidad y la VLAN 20 para WiFi de Invitados). Si un usuario no imprime, a veces es porque lo han conectado a la roseta (VLAN) equivocada.
+* **Puertos de Oro (Firewall):** * `80` (HTTP) y `443` (HTTPS) -> Navegación Web.
+  * `3389` (RDP) -> Escritorio Remoto de Windows.
+    * `22` (SSH) -> Conexión segura a servidores Linux.
+    
