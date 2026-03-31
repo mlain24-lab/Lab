@@ -131,3 +131,19 @@ El ticket más común en Helpdesk Nivel 1 es la pérdida de acceso al Microsoft 
   2. Ir a *Métodos de autenticación*.
   3. Ejecutar la acción: **"Requerir volver a registrar la autenticación multifactor"**.
   4. La próxima vez que el usuario inicie sesión, el sistema le pedirá configurar la aplicación desde cero con un nuevo código QR.
+
+## 🎫 9. Gestión de Incidencias (Ticketing y SLAs)
+
+El trabajo diario de soporte técnico se basa en la correcta priorización y documentación de las incidencias bajo el marco de buenas prácticas ITIL.
+
+### ⏱️ SLAs (Service Level Agreements) y Priorización
+Los tickets no se atienden por orden de llegada, sino por el impacto en el negocio:
+* **P1 (Crítica):** Caída de servicios core (Redes, Servidores, ERP). Máxima prioridad.
+* **P2 (Alta):** Afectación a grupos de usuarios o perfiles VIP (Dirección).
+* **P3 (Media):** Incidencias individuales que no bloquean totalmente el trabajo del usuario.
+* **P4 (Baja):** Peticiones de servicio (Service Requests) no urgentes.
+
+### 🔄 Estados y Buenas Prácticas
+* **Pausa de SLA:** Si se requiere información del usuario para continuar el diagnóstico, el ticket debe pasar a estado "Pendiente del Usuario" para pausar las métricas de tiempo.
+* **Trazabilidad:** Toda acción, diagnóstico (comandos ejecutados) y comunicación telefónica debe quedar registrada por escrito en el ticket. "Si no está documentado, no ha ocurrido".
+* **Escalado:** Si tras aplicar el troubleshooting de Nivel 1 (Ping, DNS, revisión de logs, AD local) la incidencia no se resuelve en un tiempo prudencial, documentar los pasos realizados y escalar al Nivel 2 (Sistemas/Redes).
