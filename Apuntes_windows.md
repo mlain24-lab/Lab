@@ -115,5 +115,4 @@ El Firewall perimetral controla todo el tráfico de entrada y salida de la empre
 
 **3. VLANs y Problemas de Capa 2**
 * **Concepto:** División lógica de un switch físico para separar tráfico (Ej: VLAN Empleados vs VLAN Impresoras).
-* **Troubleshooting:** Si un usuario cambia físicamente de mesa u oficina y pierde acceso a sus recursos de red, el problema suele ser que la nueva roseta de red está "parcheada" a un puerto del switch que pertenece a una VLAN incorrecta para su departamento.
-* 
+* **Troubleshooting:** Si un usuario cambia físicamente de mesa u oficina y pierde acceso a sus recursos de red, el problema suele ser que la nueva roseta de red está "parcheada" a un puerto del switch que pertenece a una VLAN incorrecta para su departamento. * 
