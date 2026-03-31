@@ -87,7 +87,7 @@ Además de DNS y DHCP, un técnico debe dominar estos conceptos y comandos para 
 ### 🛡️ Conceptos de Red Corporativa
 * **VPN (Virtual Private Network):** Crea un "túnel" seguro a través de internet. Permite a un teletrabajador estar virtualmente dentro de la red de la oficina.
 * **VLAN (Virtual LAN):** Permite dividir un switch físico en varias redes lógicas independientes (Ej: VLAN Contabilidad y VLAN Invitados).
-* **Puertos de Oro (Firewall):** `80/443` (Web), `3389` (Escritorio Remoto - RDP), `22` (SSH).
+* **​Puertos de Oro (Firewall): 80/443 (Web), 3389 (Escritorio Remoto), 22 (SSH), 445 (Carpetas Compartidas / SMB).
 
 ### 💻 Comandos Prácticos de Diagnóstico (CMD y PowerShell)
 Cuando un usuario reporta "no tengo internet", este es el orden de diagnóstico en su consola (`cmd`):
