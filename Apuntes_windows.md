@@ -93,15 +93,15 @@ Además de DNS y DHCP, un técnico debe dominar estos conceptos y comandos para 
 Cuando un usuario reporta "no tengo internet", este es el orden de diagnóstico en su consola (`cmd`):
 
 * **1. Aislamiento con PING:**
-  * `ping 127.0.0.1` -> Comprueba que la tarjeta de red física funciona.
-    * `ping 8.8.8.8` -> Si responde, el PC **sí** tiene salida a internet.
-      * `ping google.com` -> Si el paso anterior funcionó pero este falla, es culpa del servidor **DNS**.
-      * **2. Rastrear cortes con TRACERT:**
-        * `tracert 8.8.8.8` -> Muestra los saltos por los routers. Útil para ver si la conexión se corta dentro de la oficina o en la operadora de internet.
-        * **3. Limpiar la caché DNS:**
-          * `ipconfig /flushdns` -> Obliga al PC a olvidar IPs antiguas de webs o servidores actualizados.
-          * **4. Comprobar Puertos Abiertos (PowerShell):**
-            El ping no comprueba servicios, solo si la máquina está encendida. Para saber si un puerto (ej. 3389) está abierto, usa en PowerShell:
-              * `Test-NetConnection 192.168.1.50 -Port 3389`
-                *(Si devuelve `TcpTestSucceeded : True`, el servicio funciona perfectamente).*
+* `ping 127.0.0.1` -> Comprueba que la tarjeta de red física funciona.
+* `ping 8.8.8.8` -> Si responde, el PC **sí** tiene salida a internet.
+* `ping google.com` -> Si el paso anterior funcionó pero este falla, es culpa del servidor **DNS**.
+* **2. Rastrear cortes con TRACERT:**
+* `tracert 8.8.8.8` -> Muestra los saltos por los routers. Útil para ver si la conexión se corta dentro de la oficina o en la operadora de internet.
+* **3. Limpiar la caché DNS:**
+* `ipconfig /flushdns` -> Obliga al PC a olvidar IPs antiguas de webs o servidores actualizados.
+* **4. Comprobar Puertos Abiertos (PowerShell):**
+El ping no comprueba servicios, solo si la máquina está encendida. Para saber si un puerto (ej. 3389) está abierto, usa en PowerShell:
+* `Test-NetConnection 192.168.1.50 -Port 3389`
+*(Si devuelve `TcpTestSucceeded : True`, el servicio funciona perfectamente).*
                 
