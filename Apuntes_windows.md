@@ -116,3 +116,18 @@ El Firewall perimetral controla todo el tráfico de entrada y salida de la empre
 **3. VLANs y Problemas de Capa 2**
 * **Concepto:** División lógica de un switch físico para separar tráfico (Ej: VLAN Empleados vs VLAN Impresoras).
 * **Troubleshooting:** Si un usuario cambia físicamente de mesa u oficina y pierde acceso a sus recursos de red, el problema suele ser que la nueva roseta de red está "parcheada" a un puerto del switch que pertenece a una VLAN incorrecta para su departamento.
+
+## ☁️ 8. Soporte Cloud: Microsoft 365 y Entra ID
+
+En entornos modernos, la identidad local se sincroniza con la nube para acceder a servicios como Exchange (Correo), Teams y OneDrive.
+
+### 🔄 Entorno Híbrido (AD Connect)
+* **Concepto:** Herramienta que sincroniza los usuarios y contraseñas del Active Directory local (On-Premise) con Microsoft Entra ID (Cloud).
+* **Troubleshooting:** Si un usuario cambia su contraseña en el PC de la oficina pero no puede entrar al correo web, suele ser porque la sincronización de AD Connect tarda unos minutos (por defecto 30 min) en subir el cambio a la nube.
+
+### 📱 MFA (Autenticación Multifactor) y Cambio de Dispositivo
+El ticket más común en Helpdesk Nivel 1 es la pérdida de acceso al Microsoft Authenticator por cambio, rotura o pérdida del teléfono móvil.
+* **Resolución (Portal Entra ID):** 1. Buscar al usuario en el centro de administración.
+  2. Ir a *Métodos de autenticación*.
+  3. Ejecutar la acción: **"Requerir volver a registrar la autenticación multifactor"**.
+  4. La próxima vez que el usuario inicie sesión, el sistema le pedirá configurar la aplicación desde cero con un nuevo código QR.
