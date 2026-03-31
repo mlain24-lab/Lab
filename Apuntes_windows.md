@@ -104,4 +104,16 @@ Cuando un usuario reporta "no tengo internet", este es el orden de diagnóstico 
 El ping no comprueba servicios, solo si la máquina está encendida. Para saber si un puerto (ej. 3389) está abierto, usa en PowerShell:
 * `Test-NetConnection 192.168.1.50 -Port 3389`
 *(Si devuelve `TcpTestSucceeded : True`, el servicio funciona perfectamente).*
-                
+### 🧠 Conceptos Avanzados de Redes para Helpdesk
+
+**1. Firewalls y Filtrado Web**
+El Firewall perimetral controla todo el tráfico de entrada y salida de la empresa. Si un equipo tiene resolución DNS y hace ping a `8.8.8.8`, pero no puede abrir ciertas webs corporativas o externas, el problema suele derivarse en un bloqueo del Firewall. Se escala a Nivel 2.
+
+**2. VPN (Client-to-Site) y RADIUS**
+* **Flujo de autenticación:** Usuario en casa -> Programa VPN -> Firewall perimetral -> Petición RADIUS -> Active Directory.
+* **Troubleshooting:** Si la VPN rechaza la conexión, el primer paso en Helpdesk es comprobar en el *Active Directory local* si la cuenta del usuario está bloqueada o la contraseña ha expirado. 
+
+**3. VLANs y Problemas de Capa 2**
+* **Concepto:** División lógica de un switch físico para separar tráfico (Ej: VLAN Empleados vs VLAN Impresoras).
+* **Troubleshooting:** Si un usuario cambia físicamente de mesa u oficina y pierde acceso a sus recursos de red, el problema suele ser que la nueva roseta de red está "parcheada" a un puerto del switch que pertenece a una VLAN incorrecta para su departamento.
+* 
