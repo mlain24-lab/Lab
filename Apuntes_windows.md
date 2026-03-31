@@ -147,3 +147,28 @@ Los tickets no se atienden por orden de llegada, sino por el impacto en el negoc
 * **Pausa de SLA:** Si se requiere información del usuario para continuar el diagnóstico, el ticket debe pasar a estado "Pendiente del Usuario" para pausar las métricas de tiempo.
 * **Trazabilidad:** Toda acción, diagnóstico (comandos ejecutados) y comunicación telefónica debe quedar registrada por escrito en el ticket. "Si no está documentado, no ha ocurrido".
 * **Escalado:** Si tras aplicar el troubleshooting de Nivel 1 (Ping, DNS, revisión de logs, AD local) la incidencia no se resuelve en un tiempo prudencial, documentar los pasos realizados y escalar al Nivel 2 (Sistemas/Redes).
+
+## ⚡ 10. Automatización con PowerShell
+
+Como Administrador de Sistemas, la creación masiva de usuarios no se hace a mano (GUI), se automatiza mediante scripts para evitar errores humanos y ahorrar tiempo.
+
+### 📝 Creación masiva de usuarios desde un Excel (CSV)
+Cuando Recursos Humanos envía una lista de nuevas incorporaciones, se exporta a formato `.csv` y se utiliza un bucle `foreach` en PowerShell para iterar sobre cada fila y crear el usuario en el Active Directory.
+
+**Ejemplo de Script de Alta Masiva:**
+```powershell
+# 1. Importamos el archivo CSV con los datos (Nombre, Apellido, Departamento, Usuario)
+$usuarios = Import-Csv -Path "C:\IT\nuevos_usuarios.csv"
+
+# 2. Iniciamos el bucle para leer fila por fila
+foreach ($user in $usuarios) {
+    
+    # 3. Ejecutamos el comando de creación inyectando las variables del CSV
+    New-ADUser -Name "$($user.Nombre) $($user.Apellido)" `
+               -SamAccountName $user.Usuario `
+               -Department $user.Departamento `
+               -Enabled $true
+    
+    # 4. Mostramos por pantalla un mensaje de confirmación
+    Write-Host "Usuario $($user.Usuario) creado correctamente en AD." -ForegroundColor Green
+}
