@@ -9,6 +9,7 @@ Este documento contiene los conceptos clave, arquitectura y resolución de incid
 * **Dominio:** El nombre de la red de la empresa (Ej: `artemadera.local` o `empresa.com`). Todos los PCs deben estar "metidos en dominio" para obedecer al DC.
 * **Bosque (Forest):** El conjunto de todos los dominios de una gran multinacional. (Ej: El dominio de España y el dominio de Francia forman un Bosque).
 * **Unidades Organizativas (OUs):** Son como "carpetas" donde ordenamos a los usuarios y ordenadores (Ej: OU_Ventas, OU_Contabilidad). Sirven para aplicarles normas distintas a cada departamento.
+
 ## 👤 2. Gestión de Identidades y Permisos (Regla de Oro)
 
 En Active Directory (AD), el mayor error de un informático novato es darle permisos directamente a un usuario. 
@@ -24,6 +25,7 @@ En Active Directory (AD), el mayor error de un informático novato es darle perm
 * **Permisos NTFS (Seguridad):** Los permisos reales del disco duro (quién puede Leer, Escribir o Modificar). Estos son los que mandan.
 
 Las OUs aplican Políticas (GPOs). Los Grupos de Seguridad aplican Permisos (Carpetas NTFS/Compartidas). NUNCA se dan permisos a una OU ni a un Usuario individual.
+
 ## 🕵️‍♂️ 3. Troubleshooting de Permisos (Carpetas Compartidas)
 
 **El Misterio de la "Carpeta Invisible" (ABE)**
@@ -34,6 +36,7 @@ Si un usuario indica que no ve una carpeta compartida en el servidor, pero otros
 Si metes a un usuario en un Grupo de Seguridad nuevo mientras está trabajando, NO tendrá acceso inmediato a la nueva carpeta.
 * **El motivo:** Windows genera el "ticket" de permisos (Kerberos) del usuario únicamente en el momento del inicio de sesión. 
 * **La solución en Helpdesk:** NUNCA le digas que ya puede entrar. Debes decirle: *"Ya te he dado acceso. Por favor, cierra sesión en Windows, vuelve a meter tu contraseña para entrar y ya verás la carpeta"*.
+
 ## 🪄 4. GPOs (Directivas de Grupo) y Automatización
 
 Las GPOs (Group Policy Objects) son el "superpoder" del SysAdmin. Son "cajas de normas" que sirven para automatizar configuraciones, instalar software y aplicar normativas de seguridad en cientos de equipos a la vez sin moverte de la silla.
@@ -51,6 +54,7 @@ Cuando creas o modificas una GPO en el servidor, los ordenadores de los usuarios
 * Si necesitas que la nueva norma (GPO) se aplique DE INMEDIATO en el ordenador de un usuario, abres su consola (CMD) y ejecutas el comando: `gpupdate /force`
 
 * *Aviso de oro:* Este comando fuerza la actualización de POLÍTICAS (GPOs), pero **NO** actualiza los permisos de Grupos de Seguridad (para eso, como vimos antes, el usuario tiene que cerrar sesión).
+
 ## 🌐 5. Redes Core: DNS y DHCP
 
 En un entorno Windows Server, estos dos servicios son el "sistema nervioso" de la red.
@@ -80,6 +84,7 @@ En entornos modernos, la administración no se limita solo a lo que hay dentro d
 * **Entorno local:** Active Directory + GPOs.
 * **Entorno híbrido/remoto:** Azure AD + Intune.
 * **Entorno masivo local:** SCCM.
+
 ## 🛜 7. Troubleshooting de Redes (Kit de Supervivencia Helpdesk)
 
 Además de DNS y DHCP, un técnico debe dominar estos conceptos y comandos para aislar problemas de conectividad:
@@ -172,3 +177,21 @@ foreach ($user in $usuarios) {
     # 4. Mostramos por pantalla un mensaje de confirmación
     Write-Host "Usuario $($user.Usuario) creado correctamente en AD." -ForegroundColor Green
 }
+
+## 🛡️ 11. Administración Nivel 2: GPOs y Backups
+
+El soporte de Nivel 2 (y la administración de sistemas) requiere la capacidad de gestionar configuraciones de forma centralizada y garantizar la continuidad del negocio.
+
+### 📜 Directivas de Grupo (GPO - Group Policy Objects)
+Las GPOs permiten aplicar configuraciones de seguridad, mapeo de unidades de red, despliegue de software y restricciones de forma masiva a Unidades Organizativas (OU) enteras desde el Active Directory.
+
+**Troubleshooting de GPOs en el equipo cliente (CMD):**
+* `gpupdate /force` -> Fuerza la sincronización inmediata de las políticas entre el PC cliente y el Controlador de Dominio sin necesidad de reiniciar.
+* `gpresult /r` -> Muestra el conjunto resultante de directivas (RSoP). Vital para diagnosticar por qué una política específica no se está aplicando a un usuario o equipo (problemas de herencia o filtrado de seguridad).
+
+### 💾 Copias de Seguridad (Backups) y Continuidad
+La protección contra desastres físicos o ciberataques (Ransomware) se basa en la **Regla 3-2-1**:
+1. Mantener **3** copias de los datos (1 original + 2 backups).
+2. Utilizar **2** medios de almacenamiento diferentes (ej. Servidor NAS local y Cintas/Discos fríos).
+3. Mantener **1** copia Off-Site (fuera de las instalaciones, habitualmente en almacenamiento Cloud inmutable).
+*(Herramientas estándar de la industria: Veeam Backup & Replication).*
