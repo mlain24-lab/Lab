@@ -176,7 +176,8 @@ foreach ($user in $usuarios) {
     
     # 4. Mostramos por pantalla un mensaje de confirmación
     Write-Host "Usuario $($user.Usuario) creado correctamente en AD." -ForegroundColor Green
-} ```
+} 
+```
 
 ## 🛡️ 11. Administración Nivel 2: GPOs y Backups
 
