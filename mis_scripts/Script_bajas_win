@@ -1,0 +1,30 @@
+## 🛡️ Auditoría y Limpieza de Active Directory con PowerShell
+
+En entornos corporativos, las cuentas huérfanas (empleados que han dejado la empresa) representan una brecha de seguridad crítica. 
+
+Para cumplir con las normativas de ciberseguridad, he desarrollado este script en PowerShell que escanea el Controlador de Dominio, detecta qué usuarios llevan más de 30 días sin iniciar sesión, y deshabilita sus cuentas automáticamente para prevenir accesos no autorizados.
+
+### 💻 Script de Bloqueo por Inactividad (30 días)
+
+```powershell
+# Importamos el módulo oficial de Active Directory
+Import-Module ActiveDirectory
+
+# 1. Buscamos usuarios que lleven 30 días inactivos y que actualmente estén habilitados
+$usuariosInactivos = Search-ADAccount -AccountInactive -TimeSpan "30.00:00:00" -UsersOnly | Where-Object { $_.Enabled -eq $true }
+
+# 2. Comprobamos si el script ha encontrado a alguien
+if ($usuariosInactivos.Count -eq 0) {
+    Write-Host "Auditoría limpia: No hay usuarios inactivos hace más de 30 días." -ForegroundColor Green
+} else {
+    # 3. Si hay inactivos, iniciamos un bucle para deshabilitarlos uno por uno
+    foreach ($user in $usuariosInactivos) {
+        
+        # Ejecutamos el comando de bloqueo
+        Disable-ADAccount -Identity $user.SamAccountName
+        
+        # Dejamos un registro visual en la consola
+        Write-Host "[ALERTA DE SEGURIDAD] Cuenta bloqueada por inactividad: $($user.Name) ($($user.SamAccountName))" -ForegroundColor Red
+    }
+}
+```
