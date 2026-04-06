@@ -196,3 +196,26 @@ La protección contra desastres físicos o ciberataques (Ransomware) se basa en 
 2. Utilizar **2** medios de almacenamiento diferentes (ej. Servidor NAS local y Cintas/Discos fríos).
 3. Mantener **1** copia Off-Site (fuera de las instalaciones, habitualmente en almacenamiento Cloud inmutable).
 *(Herramientas estándar de la industria: Veeam Backup & Replication).*
+## 🔐 12. Seguridad y Hardening (El puente hacia la Ciberseguridad)
+
+Para proteger un entorno corporativo de ataques de Ransomware y movimientos laterales, un Administrador debe dominar estas herramientas y conceptos de seguridad nativos de Windows:
+
+### 👁️ El Visor de Eventos (Event Viewer) y Auditoría
+Es el equivalente al `/var/log` de Linux. Aquí queda registrado absolutamente todo lo que pasa en el servidor y en los equipos. En auditorías de ciberseguridad, se buscan códigos específicos (Event IDs):
+* **Event ID 4624:** Inicio de sesión exitoso.
+* **Event ID 4625:** Inicio de sesión fallido. *(Si ves 500 de estos en un minuto, estás sufriendo un ataque de fuerza bruta).*
+* **Event ID 4720:** Una cuenta de usuario ha sido creada.
+
+### 🛡️ LAPS (Local Administrator Password Solution)
+* **El Problema:** Si todos los ordenadores de la empresa tienen el mismo usuario "Administrador Local" con la misma contraseña, un hacker que comprometa un solo PC (ej. el de recepción) podrá usar esa misma contraseña para saltar e infectar todos los demás ordenadores de la red (Movimiento Lateral).
+* **La Solución (LAPS):** Es una herramienta gratuita de Microsoft que hace que cada ordenador de la empresa tenga una contraseña de administrador local **diferente, aleatoria y rotatoria**, y la guarda de forma segura y cifrada dentro del Active Directory.
+
+### 🔒 BitLocker y TPM
+* **Concepto:** Cifrado de disco completo. Si a un directivo le roban el portátil corporativo, el ladrón no puede sacar el disco duro y leer los datos conectándolo a otro ordenador. 
+* **Gestión Helpdesk:** Si un usuario bloquea su BitLocker (por ejemplo, al actualizar la BIOS), el PC le pedirá una clave de recuperación larguísima. El técnico de Helpdesk debe buscar el nombre del ordenador en el Active Directory o en Intune, ir a la pestaña "Recuperación de BitLocker" y dictarle esa clave por teléfono.
+
+### 🎯 Conceptos de Ataques al AD (Para el Blue Team)
+* **Kerberos:** Es el protocolo de autenticación del Active Directory (el sistema de "tickets" que hablamos en el apartado de permisos).
+* **Pass-the-Hash:** Técnica hacker donde roban el "hash" (la contraseña cifrada) de la memoria RAM de un ordenador y la usan para iniciar sesión en otros equipos sin necesidad de descifrarla.
+* **Golden Ticket:** El ataque definitivo. El hacker compromete el Controlador de Dominio y roba la cuenta `krbtgt` (la que fabrica los tickets Kerberos). Con esto, el hacker puede crear tickets falsos con permisos de Administrador de Dominio para siempre, aunque cambies todas las contraseñas.
+* 
