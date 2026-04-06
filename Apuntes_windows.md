@@ -218,4 +218,3 @@ Es el equivalente al `/var/log` de Linux. Aquí queda registrado absolutamente t
 * **Kerberos:** Es el protocolo de autenticación del Active Directory (el sistema de "tickets" que hablamos en el apartado de permisos).
 * **Pass-the-Hash:** Técnica hacker donde roban el "hash" (la contraseña cifrada) de la memoria RAM de un ordenador y la usan para iniciar sesión en otros equipos sin necesidad de descifrarla.
 * **Golden Ticket:** El ataque definitivo. El hacker compromete el Controlador de Dominio y roba la cuenta `krbtgt` (la que fabrica los tickets Kerberos). Con esto, el hacker puede crear tickets falsos con permisos de Administrador de Dominio para siempre, aunque cambies todas las contraseñas.
-* 
