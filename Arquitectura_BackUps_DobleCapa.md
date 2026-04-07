@@ -84,4 +84,4 @@ catch {
 ### 3. Persistencia y Automatización (Task Scheduler)
 *Configuración del Programador de Tareas de Windows para la ejecución silenciosa (`-WindowStyle Hidden`) y con privilegios de `SYSTEM` o Administrador.*
 
-![Automatización en Programador de Tareas](./img/tarea_programada.jpg)
+![Automatización en Programador de Tareas](./img/tarea_programada.png)
