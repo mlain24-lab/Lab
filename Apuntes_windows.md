@@ -9,6 +9,7 @@ Este documento contiene los conceptos clave, arquitectura y resolución de incid
 * **Dominio:** El nombre de la red de la empresa (Ej: `artemadera.local` o `empresa.com`). Todos los PCs deben estar "metidos en dominio" para obedecer al DC.
 * **Bosque (Forest):** El conjunto de todos los dominios de una gran multinacional. (Ej: El dominio de España y el dominio de Francia forman un Bosque).
 * **Unidades Organizativas (OUs):** Son como "carpetas" donde ordenamos a los usuarios y ordenadores (Ej: OU_Ventas, OU_Contabilidad). Sirven para aplicarles normas distintas a cada departamento.
+
 ## 👤 2. Gestión de Identidades y Permisos (Regla de Oro)
 
 En Active Directory (AD), el mayor error de un informático novato es darle permisos directamente a un usuario. 
@@ -24,6 +25,7 @@ En Active Directory (AD), el mayor error de un informático novato es darle perm
 * **Permisos NTFS (Seguridad):** Los permisos reales del disco duro (quién puede Leer, Escribir o Modificar). Estos son los que mandan.
 
 Las OUs aplican Políticas (GPOs). Los Grupos de Seguridad aplican Permisos (Carpetas NTFS/Compartidas). NUNCA se dan permisos a una OU ni a un Usuario individual.
+
 ## 🕵️‍♂️ 3. Troubleshooting de Permisos (Carpetas Compartidas)
 
 **El Misterio de la "Carpeta Invisible" (ABE)**
@@ -34,6 +36,7 @@ Si un usuario indica que no ve una carpeta compartida en el servidor, pero otros
 Si metes a un usuario en un Grupo de Seguridad nuevo mientras está trabajando, NO tendrá acceso inmediato a la nueva carpeta.
 * **El motivo:** Windows genera el "ticket" de permisos (Kerberos) del usuario únicamente en el momento del inicio de sesión. 
 * **La solución en Helpdesk:** NUNCA le digas que ya puede entrar. Debes decirle: *"Ya te he dado acceso. Por favor, cierra sesión en Windows, vuelve a meter tu contraseña para entrar y ya verás la carpeta"*.
+
 ## 🪄 4. GPOs (Directivas de Grupo) y Automatización
 
 Las GPOs (Group Policy Objects) son el "superpoder" del SysAdmin. Son "cajas de normas" que sirven para automatizar configuraciones, instalar software y aplicar normativas de seguridad en cientos de equipos a la vez sin moverte de la silla.
@@ -51,6 +54,7 @@ Cuando creas o modificas una GPO en el servidor, los ordenadores de los usuarios
 * Si necesitas que la nueva norma (GPO) se aplique DE INMEDIATO en el ordenador de un usuario, abres su consola (CMD) y ejecutas el comando: `gpupdate /force`
 
 * *Aviso de oro:* Este comando fuerza la actualización de POLÍTICAS (GPOs), pero **NO** actualiza los permisos de Grupos de Seguridad (para eso, como vimos antes, el usuario tiene que cerrar sesión).
+
 ## 🌐 5. Redes Core: DNS y DHCP
 
 En un entorno Windows Server, estos dos servicios son el "sistema nervioso" de la red.
@@ -80,6 +84,7 @@ En entornos modernos, la administración no se limita solo a lo que hay dentro d
 * **Entorno local:** Active Directory + GPOs.
 * **Entorno híbrido/remoto:** Azure AD + Intune.
 * **Entorno masivo local:** SCCM.
+
 ## 🛜 7. Troubleshooting de Redes (Kit de Supervivencia Helpdesk)
 
 Además de DNS y DHCP, un técnico debe dominar estos conceptos y comandos para aislar problemas de conectividad:
@@ -87,21 +92,129 @@ Además de DNS y DHCP, un técnico debe dominar estos conceptos y comandos para 
 ### 🛡️ Conceptos de Red Corporativa
 * **VPN (Virtual Private Network):** Crea un "túnel" seguro a través de internet. Permite a un teletrabajador estar virtualmente dentro de la red de la oficina.
 * **VLAN (Virtual LAN):** Permite dividir un switch físico en varias redes lógicas independientes (Ej: VLAN Contabilidad y VLAN Invitados).
-* **Puertos de Oro (Firewall):** `80/443` (Web), `3389` (Escritorio Remoto - RDP), `22` (SSH).
+* **​Puertos de Oro (Firewall): 80/443 (Web), 3389 (Escritorio Remoto), 22 (SSH), 445 (Carpetas Compartidas / SMB).
 
 ### 💻 Comandos Prácticos de Diagnóstico (CMD y PowerShell)
 Cuando un usuario reporta "no tengo internet", este es el orden de diagnóstico en su consola (`cmd`):
 
 * **1. Aislamiento con PING:**
-  * `ping 127.0.0.1` -> Comprueba que la tarjeta de red física funciona.
-    * `ping 8.8.8.8` -> Si responde, el PC **sí** tiene salida a internet.
-      * `ping google.com` -> Si el paso anterior funcionó pero este falla, es culpa del servidor **DNS**.
-      * **2. Rastrear cortes con TRACERT:**
-        * `tracert 8.8.8.8` -> Muestra los saltos por los routers. Útil para ver si la conexión se corta dentro de la oficina o en la operadora de internet.
-        * **3. Limpiar la caché DNS:**
-          * `ipconfig /flushdns` -> Obliga al PC a olvidar IPs antiguas de webs o servidores actualizados.
-          * **4. Comprobar Puertos Abiertos (PowerShell):**
-            El ping no comprueba servicios, solo si la máquina está encendida. Para saber si un puerto (ej. 3389) está abierto, usa en PowerShell:
-              * `Test-NetConnection 192.168.1.50 -Port 3389`
-                *(Si devuelve `TcpTestSucceeded : True`, el servicio funciona perfectamente).*
-                
+* `ping 127.0.0.1` -> Comprueba que la tarjeta de red física funciona.
+* `ping 8.8.8.8` -> Si responde, el PC **sí** tiene salida a internet.
+* `ping google.com` -> Si el paso anterior funcionó pero este falla, es culpa del servidor **DNS**.
+* **2. Rastrear cortes con TRACERT:**
+* `tracert 8.8.8.8` -> Muestra los saltos por los routers. Útil para ver si la conexión se corta dentro de la oficina o en la operadora de internet.
+* **3. Limpiar la caché DNS:**
+* `ipconfig /flushdns` -> Obliga al PC a olvidar IPs antiguas de webs o servidores actualizados.
+* **4. Comprobar Puertos Abiertos (PowerShell):**
+El ping no comprueba servicios, solo si la máquina está encendida. Para saber si un puerto (ej. 3389) está abierto, usa en PowerShell:
+* `Test-NetConnection 192.168.1.50 -Port 3389`
+*(Si devuelve `TcpTestSucceeded : True`, el servicio funciona perfectamente).*
+### 🧠 Conceptos Avanzados de Redes para Helpdesk
+
+**1. Firewalls y Filtrado Web**
+El Firewall perimetral controla todo el tráfico de entrada y salida de la empresa. Si un equipo tiene resolución DNS y hace ping a `8.8.8.8`, pero no puede abrir ciertas webs corporativas o externas, el problema suele derivarse en un bloqueo del Firewall. Se escala a Nivel 2.
+
+**2. VPN (Client-to-Site) y RADIUS**
+* **Flujo de autenticación:** Usuario en casa -> Programa VPN -> Firewall perimetral -> Petición RADIUS -> Active Directory.
+* **Troubleshooting:** Si la VPN rechaza la conexión, el primer paso en Helpdesk es comprobar en el *Active Directory local* si la cuenta del usuario está bloqueada o la contraseña ha expirado. 
+
+**3. VLANs y Problemas de Capa 2**
+* **Concepto:** División lógica de un switch físico para separar tráfico (Ej: VLAN Empleados vs VLAN Impresoras).
+* **Troubleshooting:** Si un usuario cambia físicamente de mesa u oficina y pierde acceso a sus recursos de red, el problema suele ser que la nueva roseta de red está "parcheada" a un puerto del switch que pertenece a una VLAN incorrecta para su departamento.
+
+## ☁️ 8. Soporte Cloud: Microsoft 365 y Entra ID
+
+En entornos modernos, la identidad local se sincroniza con la nube para acceder a servicios como Exchange (Correo), Teams y OneDrive.
+
+### 🔄 Entorno Híbrido (AD Connect)
+* **Concepto:** Herramienta que sincroniza los usuarios y contraseñas del Active Directory local (On-Premise) con Microsoft Entra ID (Cloud).
+* **Troubleshooting:** Si un usuario cambia su contraseña en el PC de la oficina pero no puede entrar al correo web, suele ser porque la sincronización de AD Connect tarda unos minutos (por defecto 30 min) en subir el cambio a la nube.
+
+### 📱 MFA (Autenticación Multifactor) y Cambio de Dispositivo
+El ticket más común en Helpdesk Nivel 1 es la pérdida de acceso al Microsoft Authenticator por cambio, rotura o pérdida del teléfono móvil.
+* **Resolución (Portal Entra ID):** 1. Buscar al usuario en el centro de administración.
+  2. Ir a *Métodos de autenticación*.
+  3. Ejecutar la acción: **"Requerir volver a registrar la autenticación multifactor"**.
+  4. La próxima vez que el usuario inicie sesión, el sistema le pedirá configurar la aplicación desde cero con un nuevo código QR.
+
+## 🎫 9. Gestión de Incidencias (Ticketing y SLAs)
+
+El trabajo diario de soporte técnico se basa en la correcta priorización y documentación de las incidencias bajo el marco de buenas prácticas ITIL.
+
+### ⏱️ SLAs (Service Level Agreements) y Priorización
+Los tickets no se atienden por orden de llegada, sino por el impacto en el negocio:
+* **P1 (Crítica):** Caída de servicios core (Redes, Servidores, ERP). Máxima prioridad.
+* **P2 (Alta):** Afectación a grupos de usuarios o perfiles VIP (Dirección).
+* **P3 (Media):** Incidencias individuales que no bloquean totalmente el trabajo del usuario.
+* **P4 (Baja):** Peticiones de servicio (Service Requests) no urgentes.
+
+### 🔄 Estados y Buenas Prácticas
+* **Pausa de SLA:** Si se requiere información del usuario para continuar el diagnóstico, el ticket debe pasar a estado "Pendiente del Usuario" para pausar las métricas de tiempo.
+* **Trazabilidad:** Toda acción, diagnóstico (comandos ejecutados) y comunicación telefónica debe quedar registrada por escrito en el ticket. "Si no está documentado, no ha ocurrido".
+* **Escalado:** Si tras aplicar el troubleshooting de Nivel 1 (Ping, DNS, revisión de logs, AD local) la incidencia no se resuelve en un tiempo prudencial, documentar los pasos realizados y escalar al Nivel 2 (Sistemas/Redes).
+
+## ⚡ 10. Automatización con PowerShell
+
+Como Administrador de Sistemas, la creación masiva de usuarios no se hace a mano (GUI), se automatiza mediante scripts para evitar errores humanos y ahorrar tiempo.
+
+### 📝 Creación masiva de usuarios desde un Excel (CSV)
+Cuando Recursos Humanos envía una lista de nuevas incorporaciones, se exporta a formato `.csv` y se utiliza un bucle `foreach` en PowerShell para iterar sobre cada fila y crear el usuario en el Active Directory.
+
+**Ejemplo de Script de Alta Masiva:**
+```powershell
+# 1. Importamos el archivo CSV con los datos (Nombre, Apellido, Departamento, Usuario)
+$usuarios = Import-Csv -Path "C:\IT\nuevos_usuarios.csv"
+
+# 2. Iniciamos el bucle para leer fila por fila
+foreach ($user in $usuarios) {
+    
+    # 3. Ejecutamos el comando de creación inyectando las variables del CSV
+    New-ADUser -Name "$($user.Nombre) $($user.Apellido)" `
+               -SamAccountName $user.Usuario `
+               -Department $user.Departamento `
+               -Enabled $true
+    
+    # 4. Mostramos por pantalla un mensaje de confirmación
+    Write-Host "Usuario $($user.Usuario) creado correctamente en AD." -ForegroundColor Green
+} 
+```
+
+## 🛡️ 11. Administración Nivel 2: GPOs y Backups
+
+El soporte de Nivel 2 (y la administración de sistemas) requiere la capacidad de gestionar configuraciones de forma centralizada y garantizar la continuidad del negocio.
+
+### 📜 Directivas de Grupo (GPO - Group Policy Objects)
+Las GPOs permiten aplicar configuraciones de seguridad, mapeo de unidades de red, despliegue de software y restricciones de forma masiva a Unidades Organizativas (OU) enteras desde el Active Directory.
+
+**Troubleshooting de GPOs en el equipo cliente (CMD):**
+* `gpupdate /force` -> Fuerza la sincronización inmediata de las políticas entre el PC cliente y el Controlador de Dominio sin necesidad de reiniciar.
+* `gpresult /r` -> Muestra el conjunto resultante de directivas (RSoP). Vital para diagnosticar por qué una política específica no se está aplicando a un usuario o equipo (problemas de herencia o filtrado de seguridad).
+
+### 💾 Copias de Seguridad (Backups) y Continuidad
+La protección contra desastres físicos o ciberataques (Ransomware) se basa en la **Regla 3-2-1**:
+1. Mantener **3** copias de los datos (1 original + 2 backups).
+2. Utilizar **2** medios de almacenamiento diferentes (ej. Servidor NAS local y Cintas/Discos fríos).
+3. Mantener **1** copia Off-Site (fuera de las instalaciones, habitualmente en almacenamiento Cloud inmutable).
+*(Herramientas estándar de la industria: Veeam Backup & Replication).*
+## 🔐 12. Seguridad y Hardening (El puente hacia la Ciberseguridad)
+
+Para proteger un entorno corporativo de ataques de Ransomware y movimientos laterales, un Administrador debe dominar estas herramientas y conceptos de seguridad nativos de Windows:
+
+### 👁️ El Visor de Eventos (Event Viewer) y Auditoría
+Es el equivalente al `/var/log` de Linux. Aquí queda registrado absolutamente todo lo que pasa en el servidor y en los equipos. En auditorías de ciberseguridad, se buscan códigos específicos (Event IDs):
+* **Event ID 4624:** Inicio de sesión exitoso.
+* **Event ID 4625:** Inicio de sesión fallido. *(Si ves 500 de estos en un minuto, estás sufriendo un ataque de fuerza bruta).*
+* **Event ID 4720:** Una cuenta de usuario ha sido creada.
+
+### 🛡️ LAPS (Local Administrator Password Solution)
+* **El Problema:** Si todos los ordenadores de la empresa tienen el mismo usuario "Administrador Local" con la misma contraseña, un hacker que comprometa un solo PC (ej. el de recepción) podrá usar esa misma contraseña para saltar e infectar todos los demás ordenadores de la red (Movimiento Lateral).
+* **La Solución (LAPS):** Es una herramienta gratuita de Microsoft que hace que cada ordenador de la empresa tenga una contraseña de administrador local **diferente, aleatoria y rotatoria**, y la guarda de forma segura y cifrada dentro del Active Directory.
+
+### 🔒 BitLocker y TPM
+* **Concepto:** Cifrado de disco completo. Si a un directivo le roban el portátil corporativo, el ladrón no puede sacar el disco duro y leer los datos conectándolo a otro ordenador. 
+* **Gestión Helpdesk:** Si un usuario bloquea su BitLocker (por ejemplo, al actualizar la BIOS), el PC le pedirá una clave de recuperación larguísima. El técnico de Helpdesk debe buscar el nombre del ordenador en el Active Directory o en Intune, ir a la pestaña "Recuperación de BitLocker" y dictarle esa clave por teléfono.
+
+### 🎯 Conceptos de Ataques al AD (Para el Blue Team)
+* **Kerberos:** Es el protocolo de autenticación del Active Directory (el sistema de "tickets" que hablamos en el apartado de permisos).
+* **Pass-the-Hash:** Técnica hacker donde roban el "hash" (la contraseña cifrada) de la memoria RAM de un ordenador y la usan para iniciar sesión en otros equipos sin necesidad de descifrarla.
+* **Golden Ticket:** El ataque definitivo. El hacker compromete el Controlador de Dominio y roba la cuenta `krbtgt` (la que fabrica los tickets Kerberos). Con esto, el hacker puede crear tickets falsos con permisos de Administrador de Dominio para siempre, aunque cambies todas las contraseñas.

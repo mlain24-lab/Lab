@@ -67,3 +67,12 @@
 * `echo "texto"`: El megáfono. Imprime un texto. Se usa muchísimo combinado con redirecciones para escribir en archivos sin tener que abrir editores (Ej: `echo "hola" >> saludo.txt`).
 * `$(comando)`: Comandos anidados. Ejecuta un comando dentro de otro y pone el resultado ahí mismo (Ej: `echo "Mi ruta es $(pwd)"` inyecta la ruta automáticamente).
 * **Truco Pro de Grep:** No hace falta usar `cat` para leer un archivo antes de filtrarlo. Puedes hacerlo directo: `grep "palabra" /ruta/al/archivo`.
+## 📡 10. Redes y Procesos (El Radar de Ciberseguridad)
+* `ip a` o `ip addr`: Muestra tus tarjetas de red y tus direcciones IP (sustituye al antiguo `ifconfig`).
+* `ping [IP o dominio]`: Envía paquetes de red (ICMP) para comprobar si una máquina está encendida y si llegas hasta ella.
+* `ps aux`: Hace una "fotografía" de todos los procesos y programas que se están ejecutando en ese milisegundo por todos los usuarios del sistema.
+* `top` o `htop`: Muestra los procesos en tiempo real, ordenados por cuánta CPU y RAM consumen (es el Administrador de Tareas de la terminal).
+* `kill -9 [PID]`: El francotirador. Mata un proceso malicioso o bloqueado usando su número identificador (PID). El `-9` significa "fuerza la muerte inmediata sin preguntar".
+* `ss -tuln` o `netstat -tuln`: El escáner de puertos. Te muestra una lista de qué puertos de tu máquina están abiertos y "escuchando" hacia internet. Vital para auditorías.
+* `curl [URL]`: El navegador de la terminal. Permite ver el código de una web, interactuar con APIs o descargar archivos directamente desde la consola.
+* `wget [URL]`: Descarga archivos desde internet directamente a la carpeta donde estés ubicado.
