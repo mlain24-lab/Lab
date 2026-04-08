@@ -1,3 +1,5 @@
+# Iniciar la grabacion del Log
+Start-Transcript -Path "C:\Scripts\Historial_Backups.log" -Append
 # ==============================================================
 # 1. CONFIGURACION DE RUTAS
 # ==============================================================
@@ -50,3 +52,5 @@ catch {
     Write-Host "===================================================" -ForegroundColor Red
     Write-Host ""
 }
+# Detener la grabacion del Log
+Stop-Transcript
