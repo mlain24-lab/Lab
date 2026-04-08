@@ -13,6 +13,8 @@ El script automatizado se ejecuta mediante el Programador de Tareas de Windows d
 ## 💻 2. Código Fuente (PowerShell)
 
 ```powershell
+# Iniciar la grabacion del Log
+Start-Transcript -Path "C:\Scripts\Historial_Backups.log" -Append
 # ==============================================================
 # 1. CONFIGURACION DE RUTAS
 # ==============================================================
@@ -23,7 +25,7 @@ $Origenes = @(
 )
 
 $DestinoVault = "C:\.sys_vault\"
-$DestinoNube = "C:\Users\migue\OneDrive\Backup_Seguros\"
+$DestinoNube = "C:\Users\migue\OneDrive\BackUps_Seguros\"
 $Prefijo = "Backup_DobleCapa_"
 
 # ==============================================================
@@ -35,6 +37,7 @@ $ArchivoNube = $DestinoNube + $Prefijo + $Fecha + ".zip"
 
 try {
     Write-Host "Iniciando compresion multiple local..." -ForegroundColor Cyan
+    # El -ErrorAction Stop obliga a saltar al Catch si algo falla
     Compress-Archive -Path $Origenes -DestinationPath $ArchivoLocal -Force -ErrorAction Stop
     
     Write-Host "Enviando copia de seguridad a la Nube..." -ForegroundColor Cyan
@@ -55,7 +58,7 @@ try {
 }
 catch {
     # ==============================================================
-    # 4. GESTION DE FALLOS
+    # 4. GESTION DE FALLOS (EL "IF NOT")
     # ==============================================================
     Write-Host ""
     Write-Host "===================================================" -ForegroundColor Red
@@ -64,6 +67,8 @@ catch {
     Write-Host "===================================================" -ForegroundColor Red
     Write-Host ""
 }
+# Detener la grabacion del Log
+Stop-Transcript
 ```
 ## 📸 3. Evidencias de Ejecución y Automatización
 
@@ -85,3 +90,16 @@ catch {
 *Configuración del Programador de Tareas de Windows para la ejecución silenciosa (`-WindowStyle Hidden`) y con privilegios de `SYSTEM` o Administrador.*
 
 ![Automatización en Programador de Tareas](./img/tarea_programada.png)
+
+
+### 4. Añadida linea para crear logs.
+# Iniciar la grabacion del Log
+
+```powershell
+Start-Transcript -Path "C:\Scripts\Historial_Backups.log" -Append
+
+# Detener la grabacion del Log
+
+Stop-Transcript
+```
+![Grabacion del log](./img/Linea.Log.png)
