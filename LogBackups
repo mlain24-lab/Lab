@@ -1,0 +1,16 @@
+# Iniciar la grabacion del Log (AÑADE ESTA LINEA AL PRINCIPIO)
+Start-Transcript -Path "C:\Scripts\Historial_Backups.log" -Append
+
+# ==============================================================
+# 1. CONFIGURACION DE RUTAS
+# ==============================================================
+# ... (Aquí va todo tu código normal de rutas, Try/Catch, etc.) ...
+
+# ==============================================================
+# 4. GESTION DE FALLOS
+# ==============================================================
+# ... (Aquí va la parte de tus mensajes de error en rojo) ...
+}
+
+# Detener la grabacion del Log (AÑADE ESTA LINEA AL FINAL)
+Stop-Transcript
