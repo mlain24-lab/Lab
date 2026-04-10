@@ -37,8 +37,7 @@ To ensure the lab was fully operational, I executed a series of connectivity and
 
 ![Network Connectivity Test](/img/05-network-connectivity-test.png)
 
-2.  **Internet Connectivity:** Verified via `ping -c 4 8.8.8.8` (0% packet loss).
-3.  **Ping Google.com:** Verified via `ping -c 4 google.com` (0% packet loss).
+3.  **Internet connection verified via ping Google.com:** Verified via `ping -c 4 google.com` (0% packet loss).
 
 ![Network Connectivity Test-2](/img/03-network-connectivity-ping.png)
 
