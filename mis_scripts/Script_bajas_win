@@ -10,21 +10,27 @@ Para cumplir con las normativas de ciberseguridad, he desarrollado este script e
 # Importamos el módulo oficial de Active Directory
 Import-Module ActiveDirectory
 
-# 1. Buscamos usuarios que lleven 30 días inactivos y que actualmente estén habilitados
-$usuariosInactivos = Search-ADAccount -AccountInactive -TimeSpan "30.00:00:00" -UsersOnly | Where-Object { $_.Enabled -eq $true }
+$daysInactive = 30
+$logFile = "C:\Audit\DisabledUsers_$(Get-Date -Format 'yyyyMMdd').csv"
 
-# 2. Comprobamos si el script ha encontrado a alguien
-if ($usuariosInactivos.Count -eq 0) {
-    Write-Host "Auditoría limpia: No hay usuarios inactivos hace más de 30 días." -ForegroundColor Green
+# 1. Buscamos usuarios activos que superen el umbral, excluyendo cuentas de Administrador
+$inactiveUsers = Search-ADAccount -AccountInactive -TimeSpan "$daysInactive.00:00:00" -UsersOnly | 
+                 Where-Object { $_.Enabled -eq $true -and $_.Name -notlike "*Admin*" }
+
+if ($null -eq $inactiveUsers) {
+    Write-Host "No inactive users found. System secure." -ForegroundColor Green
 } else {
-    # 3. Si hay inactivos, iniciamos un bucle para deshabilitarlos uno por uno
-    foreach ($user in $usuariosInactivos) {
-        
-        # Ejecutamos el comando de bloqueo
-        Disable-ADAccount -Identity $user.SamAccountName
-        
-        # Dejamos un registro visual en la consola
-        Write-Host "[ALERTA DE SEGURIDAD] Cuenta bloqueada por inactividad: $($user.Name) ($($user.SamAccountName))" -ForegroundColor Red
+    # Exportamos a CSV para tener un registro antes de actuar (Compliance)
+    $inactiveUsers | Select-Object Name, SamAccountName, LastLogonDate | Export-Csv -Path $logFile -NoTypeInformation
+    
+    foreach ($user in $inactiveUsers) {
+        try {
+            Disable-ADAccount -Identity $user.DistinguishedName -ErrorAction Stop
+            Write-Host "[ACTION] Disabled: $($user.Name)" -ForegroundColor Yellow
+        } catch {
+            Write-Warning "Failed to disable $($user.Name): $($_.Exception.Message)"
+        }
     }
+    Write-Host "Audit completed. Log saved at $logFile" -ForegroundColor Cyan
 }
 ```
